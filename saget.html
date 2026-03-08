@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WhatsApp Clone - Beautiful Chat</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+/* WhatsApp Perfect Style - ENHANCED */
+:root {
+  --whatsapp-green: #25D366;
+  --whatsapp-dark-green: #075E54;
+  --whatsapp-teal: #128C7E;
+  --whatsapp-bg: #e5ded8;
+  --message-out: #dcf8c6;
+  --message-in: #ffffff;
+  --header-bg: #075E54;
+  --header-text: #ffffff;
+  --search-bg: #f6f6f6;
+  --border-color: #e0e0e0;
+  --shadow: 0 2px 5px rgba(0,0,0,0.1);
+  --shadow-lg: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  margin: 0;
+}
+
+#container {
+  width: 450px;
+  max-width: 100%;
+  height: 800px;
+  max-height: 95vh;
+  background: white;
+  border-radius: 30px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Auth Styles */
+#auth {
+  padding: 40px 30px;
+  background: white;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+#auth h2 {
+  text-align: center;
+  margin-bottom: 40px;
+  color: var(--whatsapp-dark-green);
+  font-weight: 700;
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+#auth h2 i {
+  color: var(--whatsapp-green);
+  font-size: 40px;
+}
+
+.status {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 12px;
+  border-radius: 25px;
+  background: #f0f0f0;
+  font-weight: 500;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-group i {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--whatsapp-dark-green);
+  font-size: 18px;
+  opacity: 0.7;
+}
+
+#auth input {
+  width: 100%;
+  padding: 16px 20px 16px 50px;
+  border: 2px solid #e0e0e0;
+  border-radius: 30px;
+  font-size: 15px;
+  transition: all 0.3s;
+  background: white;
+}
+
+#auth input:focus {
+  outline: none;
+  border-color: var(--whatsapp-green);
+  box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.1);
+}
+
+.button-group {
+  display: flex;
+  gap: 12px;
+  margin: 25px 0 15px;
+}
+
+.btn {
+  flex: 1;
+  padding: 16px;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: var(--whatsapp-dark-green);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--whatsapp-teal);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(7, 94, 84, 0.3);
+}
+
+.btn-success {
+  background: var(--whatsapp-green);
+  color: white;
+}
+
+.btn-success:hover:not(:disabled) {
+  background: #20b859;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+}
+
+.btn-danger {
+  background: #f44336;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #d32f2f;
+}
+
+.demo-users-btn {
+  width: 100%;
+  background: transparent;
+  border: 2px dashed var(--whatsapp-dark-green);
+  color: var(--whatsapp-dark-green);
+  padding: 14px;
+  border-radius: 30px;
+  margin-top: 15px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s;
+}
+
+.demo-users-btn:hover {
+  background: var(--whatsapp-dark-green);
+  color: white;
+  border: 2px solid var(--whatsapp-dark-green);
+}
+
+.loader {
+  display: none;
+  text-align: center;
+  padding: 20px;
+  color: var(--whatsapp-dark-green);
+}
+
+.loader i {
+  font-size: 24px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ========== CHAT STYLES - ENHANCED ONLY ========== */
+#chat {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--whatsapp-bg);
+  position: relative;
+}
+
+/* Chat Header - Enhanced */
+.chat-header {
+  background: var(--header-bg);
+  color: white;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.chat-header i {
+  font-size: 22px;
+}
+
+.chat-header h2 {
+  flex: 1;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.backend-status {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  padding: 4px 8px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 16px;
+}
+
+.backend-status.online i {
+  color: #25D366;
+}
+
+.backend-status.offline i {
+  color: #ff9800;
+}
+
+/* User Profile - Enhanced */
+.user-profile {
+  background: white;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  flex-shrink: 0;
+}
+
+.user-avatar {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, var(--whatsapp-dark-green), var(--whatsapp-green));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.user-info {
+  flex: 1;
+}
+
+.user-info h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.user-info p {
+  font-size: 11px;
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Contacts Section - Enhanced */
+.contacts-section {
+  background: white;
+  margin: 8px 12px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  flex-shrink: 0;
+}
+
+.contacts-header {
+  padding: 12px;
+  background: #f8f9fa;
+}
+
+.contacts-header h3 {
+  font-size: 14px;
+  color: var(--whatsapp-dark-green);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+/* Search Box - Enhanced */
+.search-box {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.search-box i {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 13px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 8px 12px 8px 36px;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
+  font-size: 13px;
+  background: white;
+  transition: all 0.3s;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: var(--whatsapp-green);
+  box-shadow: 0 0 0 2px rgba(37, 211, 102, 0.1);
+}
+
+.contacts-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #999;
+  padding: 4px 0;
+}
+
+.contacts-stats span i {
+  color: var(--whatsapp-green);
+  margin-right: 3px;
+  font-size: 10px;
+}
+
+/* User List - Enhanced */
+#user-list {
+  max-height: 150px;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+/* User Items - Enhanced */
+.user-item {
+  width: 100%;
+  padding: 8px 12px;
+  margin-bottom: 4px;
+  border: none;
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+}
+
+.user-item:hover {
+  background: #f0f0f0;
+  border-color: var(--whatsapp-green);
+}
+
+.user-item.selected {
+  background: var(--whatsapp-dark-green);
+  color: white;
+}
+
+.user-item.selected i {
+  color: white;
+}
+
+.user-item i {
+  color: var(--whatsapp-dark-green);
+  font-size: 15px;
+  width: 18px;
+}
+
+/* Active Chat Indicator - Enhanced */
+.active-chat {
+  background: white;
+  padding: 10px 12px;
+  margin: 0 12px 8px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  color: var(--whatsapp-dark-green);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-left: 4px solid var(--whatsapp-green);
+  box-shadow: var(--shadow);
+  flex-shrink: 0;
+}
+
+/* ========== MESSAGES AREA - ENHANCED FOR BETTER VISIBILITY ========== */
+.messages-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 10px;
+  background: #e5ded8;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23e5ded8" opacity="0.4"/><circle cx="20" cy="20" r="8" fill="%23ccc" opacity="0.2"/><circle cx="80" cy="80" r="12" fill="%23aaa" opacity="0.2"/></svg>');
+  background-size: 100px 100px;
+  scroll-behavior: smooth;
+  min-height: 0;
+}
+
+#messages {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Message Wrapper - Enhanced */
+.message-wrapper {
+  display: flex;
+  width: 100%;
+  animation: messageSlide 0.3s ease;
+}
+
+.message-wrapper.sent {
+  justify-content: flex-end;
+}
+
+.message-wrapper.received {
+  justify-content: flex-start;
+}
+
+@keyframes messageSlide {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========== MESSAGE BUBBLES - ENHANCED SIZE ========== */
+.message-bubble {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  position: relative;
+  word-wrap: break-word;
+  font-size: 14px;
+  line-height: 1.5;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Sent Message - Right Side */
+.message-bubble.sent {
+  background: var(--message-out);
+  color: #111;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 16px;
+  border-bottom-left-radius: 16px;
+  border-top-left-radius: 16px;
+  margin-left: auto;
+}
+
+/* Received Message - Left Side */
+.message-bubble.received {
+  background: var(--message-in);
+  color: #111;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+  border-top-right-radius: 16px;
+  margin-right: auto;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+/* Sender Name - Enhanced */
+.message-sender-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--whatsapp-dark-green);
+  margin-bottom: 4px;
+  letter-spacing: 0.3px;
+}
+
+/* Message Time - Enhanced */
+.message-time {
+  font-size: 10px;
+  color: #999;
+  margin-top: 4px;
+  text-align: right;
+  font-weight: 500;
+}
+
+.message-bubble.sent .message-time {
+  color: rgba(0,0,0,0.6);
+}
+
+/* Message Input Area - Enhanced */
+.message-input {
+  background: white;
+  padding: 12px 12px;
+  display: flex;
+  gap: 10px;
+  border-top: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.02);
+  flex-shrink: 0;
+}
+
+.input-wrapper {
+  flex: 1;
+  position: relative;
+}
+
+.input-wrapper i {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--whatsapp-dark-green);
+  opacity: 0.6;
+  font-size: 16px;
+  transition: opacity 0.2s;
+}
+
+.input-wrapper:focus-within i {
+  opacity: 1;
+}
+
+#msg {
+  width: 100%;
+  padding: 10px 14px 10px 40px;
+  border: 1px solid #e0e0e0;
+  border-radius: 24px;
+  font-size: 14px;
+  background: #f8f8f8;
+  transition: all 0.3s;
+}
+
+#msg:focus {
+  outline: none;
+  border-color: var(--whatsapp-green);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.1);
+}
+
+#msg::placeholder {
+  color: #aaa;
+  font-size: 13px;
+}
+
+.btn-send {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--whatsapp-dark-green);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(7, 94, 84, 0.3);
+  flex-shrink: 0;
+}
+
+.btn-send:hover:not(:disabled) {
+  background: var(--whatsapp-teal);
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(7, 94, 84, 0.4);
+}
+
+.btn-send:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.btn-send:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn-send i {
+  font-size: 18px;
+}
+
+/* Logout Button - Enhanced */
+.btn-logout {
+  margin: 0 12px 12px 12px;
+  padding: 10px;
+  border: none;
+  border-radius: 24px;
+  background: #f44336;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 5px rgba(244, 67, 54, 0.3);
+  flex-shrink: 0;
+}
+
+.btn-logout:hover {
+  background: #d32f2f;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(244, 67, 54, 0.4);
+}
+
+.btn-logout:active {
+  transform: translateY(0);
+}
+
+.btn-logout i {
+  font-size: 14px;
+}
+
+/* Empty States - Enhanced */
+.empty-state, .welcome-message {
+  text-align: center;
+  padding: 30px 16px;
+  color: #666;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  margin: 16px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+  backdrop-filter: blur(5px);
+}
+
+.empty-state i, .welcome-message i {
+  font-size: 48px;
+  color: var(--whatsapp-green);
+  margin-bottom: 12px;
+  opacity: 0.7;
+}
+
+.welcome-message p {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #888;
+}
+
+/* Toast Notifications - Enhanced */
+.toast {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  padding: 10px 16px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: slideInRight 0.3s ease;
+  z-index: 9999;
+  max-width: 280px;
+  border-left: 4px solid var(--whatsapp-green);
+  font-size: 13px;
+}
+
+.toast.error {
+  border-left-color: #f44336;
+}
+
+.toast i {
+  font-size: 16px;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Scrollbar - Enhanced */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--whatsapp-dark-green);
+}
+
+/* ========== RESPONSIVE ENHANCEMENTS ========== */
+@media (max-width: 480px) {
+  #container {
+    width: 100%;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+  
+  body {
+    padding: 0;
+  }
+  
+  .message-bubble {
+    max-width: 85%;
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+  
+  .contacts-section {
+    margin: 6px 10px;
+  }
+  
+  #user-list {
+    max-height: 130px;
+  }
+  
+  .user-profile {
+    padding: 10px 14px;
+  }
+  
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+  
+  .chat-header {
+    padding: 10px 14px;
+  }
+  
+  .chat-header h2 {
+    font-size: 16px;
+  }
+  
+  .message-input {
+    padding: 10px 10px;
+  }
+  
+  #msg {
+    padding: 9px 12px 9px 38px;
+    font-size: 13px;
+  }
+  
+  .btn-send {
+    width: 42px;
+    height: 42px;
+  }
+  
+  .btn-logout {
+    margin: 0 10px 10px 10px;
+    padding: 9px;
+  }
+}
+
+/* Landscape Mode Support */
+@media (max-height: 600px) and (orientation: landscape) {
+  #container {
+    height: 100vh;
+    max-height: 100vh;
+  }
+  
+  .user-profile {
+    padding: 8px 12px;
+  }
+  
+  .user-avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+  
+  .contacts-section {
+    margin: 5px 10px;
+  }
+  
+  #user-list {
+    max-height: 80px;
+  }
+  
+  .messages-area {
+    padding: 10px 8px;
+  }
+  
+  .message-bubble {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}
+
+/* Tablet Support */
+@media (min-width: 768px) and (max-width: 1024px) {
+  #container {
+    width: 400px;
+    height: 700px;
+  }
+  
+  .message-bubble {
+    max-width: 75%;
+  }
+}
+
+/* High-resolution screens */
+@media (min-width: 1200px) {
+  #container {
+    width: 450px;
+    height: 800px;
+  }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+  .user-item:hover {
+    background: white;
+    border-color: transparent;
+  }
+  
+  .user-item:active {
+    background: #f0f0f0;
+  }
+  
+  .btn-send:hover:not(:disabled) {
+    transform: scale(1);
+  }
+  
+  .btn-send:active:not(:disabled) {
+    transform: scale(0.95);
+  }
+}
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+  /* Keep original WhatsApp colors - no changes */
+}
+
+/* Accessibility improvements */
+.user-item:focus-visible,
+.btn:focus-visible,
+#msg:focus-visible {
+  outline: 2px solid var(--whatsapp-green);
+  outline-offset: 2px;
+}
+
+/* Smooth transitions */
+* {
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Better text rendering */
+.message-bubble {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Improved message readability */
+.message-bubble.sent,
+.message-bubble.received {
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+}
+</style>
+</head>
+<body>
+  <!-- Rest of your HTML remains EXACTLY the same -->
+  <div id="container">
+    <!-- Auth -->
+    <div id="auth">
+      <h2>
+        <i class="fab fa-whatsapp"></i>
+        Saget Chat
+      </h2>
+      <div class="status" id="status">
+        <i class="fas fa-circle-notch fa-spin"></i>
+        Checking connection...
+      </div>
+      
+      <div class="input-group">
+        <i class="fas fa-envelope"></i>
+        <input type="email" id="email" placeholder="Email address">
+      </div>
+      
+      <div class="input-group">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="password" placeholder="Password (min 6 chars)">
+      </div>
+      
+      <div class="input-group">
+        <i class="fas fa-user"></i>
+        <input type="text" id="username" placeholder="Display name">
+      </div>
+      
+      <div class="button-group">
+        <button class="btn btn-primary" id="btnRegister">
+          <i class="fas fa-user-plus"></i>
+          Register
+        </button>
+        <button class="btn btn-success" id="btnLogin">
+          <i class="fas fa-sign-in-alt"></i>
+          Login
+        </button>
+      </div>
+      
+      <button class="demo-users-btn" id="btnAddDemoUsers">
+        <i class="fas fa-users"></i>
+        Add Demo Users
+      </button>
+      
+      <div class="loader" id="loader">
+        <i class="fas fa-circle-notch fa-spin"></i> Loading...
+      </div>
+    </div>
+
+    <!-- Chat -->
+    <div id="chat" style="display:none;">
+      <!-- Chat Header -->
+      <div class="chat-header">
+        <i class="fab fa-whatsapp"></i>
+        <h2>Saget Chat</h2>
+        <span class="backend-status" id="backendStatus">
+          <i class="fas fa-circle"></i>
+          <span id="backendStatusText">Checking...</span>
+        </span>
+      </div>
+      
+      <!-- User Profile -->
+      <div class="user-profile">
+        <div class="user-avatar" id="userAvatar">
+          <i class="fas fa-user"></i>
+        </div>
+        <div class="user-info">
+          <h4 id="userName">
+            <i class="fas fa-circle" style="color: #25D366; font-size: 10px;"></i>
+            Loading...
+          </h4>
+          <p>
+            <i class="fas fa-envelope"></i>
+            <span id="userEmail">loading...</span>
+          </p>
+        </div>
+      </div>
+      
+      <!-- Contacts Section -->
+      <div class="contacts-section">
+        <div class="contacts-header">
+          <h3>
+            <i class="fas fa-users"></i>
+            Contacts
+          </h3>
+          
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchUser" placeholder="Search contacts...">
+          </div>
+          
+          <div class="contacts-stats">
+            <span><i class="fas fa-user-friends"></i> <span id="totalUsers">0</span> total</span>
+            <span><i class="fas fa-eye"></i> <span id="visibleUsers">0</span> shown</span>
+          </div>
+        </div>
+        
+        <div id="user-list"></div>
+      </div>
+      
+      <!-- Active Chat Indicator -->
+      <div id="activeChatContainer"></div>
+      
+      <!-- Messages Area -->
+      <div class="messages-area">
+        <div id="messages"></div>
+      </div>
+      
+      <!-- Message Input -->
+      <div class="message-input">
+        <div class="input-wrapper">
+          <i class="fas fa-smile"></i>
+          <input type="text" id="msg" placeholder="Type a message...">
+        </div>
+        <button class="btn-send" id="btnSend" disabled>
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+      
+      <!-- Logout Button -->
+      <button class="btn-logout" id="btnLogout">
+        <i class="fas fa-sign-out-alt"></i>
+        Logout
+      </button>
+    </div>
+  </div>
+
+  <!-- Your EXACT same JavaScript - NO CHANGES -->
+  <script type="module">
+    // Your EXISTING JavaScript code - completely unchanged
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+    const supabaseUrl = 'https://qilrdboatlllyamlztet.supabase.co'
+    const supabaseKey = 'sb_publishable_CkVmIxWJlFh8zEbtlQvulA_Dlb0BOYz'
+    let supabase = null
+    let useLocalStorage = false
+
+    // DOM Elements
+    const authDiv = document.getElementById('auth')
+    const chatDiv = document.getElementById('chat')
+    const loader = document.getElementById('loader')
+    const status = document.getElementById('status')
+    const btnRegister = document.getElementById('btnRegister')
+    const btnLogin = document.getElementById('btnLogin')
+    const btnSend = document.getElementById('btnSend')
+    const btnLogout = document.getElementById('btnLogout')
+    const btnAddDemoUsers = document.getElementById('btnAddDemoUsers')
+    const messagesDiv = document.getElementById('messages')
+    const userListDiv = document.getElementById('user-list')
+    const searchInput = document.getElementById('searchUser')
+    const totalUsersSpan = document.getElementById('totalUsers')
+    const visibleUsersSpan = document.getElementById('visibleUsers')
+    const userNameSpan = document.getElementById('userName')
+    const userEmailSpan = document.getElementById('userEmail')
+    const userAvatarDiv = document.getElementById('userAvatar')
+    const backendStatusSpan = document.getElementById('backendStatus')
+    const backendStatusText = document.getElementById('backendStatusText')
+    const activeChatContainer = document.getElementById('activeChatContainer')
+
+    let currentUser = null
+    let currentUserProfile = null
+    let selectedUser = null
+    let allUsers = []
+    let messageSubscription = null
+
+    // Initialize app
+    async function initializeApp() {
+      try {
+        supabase = createClient(supabaseUrl, supabaseKey)
+        const { data, error } = await supabase.from('profiles').select().limit(1)
+        if (error) throw error
+        useLocalStorage = false
+        backendStatusSpan.className = 'backend-status online'
+        backendStatusText.textContent = 'Online'
+        status.innerHTML = '<i class="fas fa-check-circle" style="color:#25D366"></i> Connected to Supabase'
+      } catch (e) {
+        console.log('Using localStorage mode')
+        useLocalStorage = true
+        supabase = null
+        backendStatusSpan.className = 'backend-status offline'
+        backendStatusText.textContent = 'Offline'
+        status.innerHTML = '<i class="fas fa-database" style="color:#ff9800"></i> Using Local Storage'
+        initializeLocalStorage()
+      }
+    }
+
+    // Local Storage Functions
+    function getLocalStorageData(key) {
+      const data = localStorage.getItem(key)
+      return data ? JSON.parse(data) : []
+    }
+
+    function setLocalStorageData(key, data) {
+      localStorage.setItem(key, JSON.stringify(data))
+    }
+
+    function generateId() {
+      return Date.now() + '-' + Math.random().toString(36).substr(2, 9)
+    }
+
+    function showLoader(show) {
+      loader.style.display = show ? 'block' : 'none'
+      btnRegister.disabled = show
+      btnLogin.disabled = show
+    }
+
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div')
+      toast.className = `toast ${type}`
+      toast.innerHTML = `
+        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+        <span>${message}</span>
+      `
+      document.body.appendChild(toast)
+      setTimeout(() => toast.remove(), 3000)
+    }
+
+    // Initialize localStorage with demo users
+    function initializeLocalStorage() {
+      const users = getLocalStorageData('chat_users')
+      if (users.length === 0) {
+        const demoUsers = [
+          { id: '1', email: 'alice@demo.com', password: 'demo123', username: 'Alice Johnson' },
+          { id: '2', email: 'bob@demo.com', password: 'demo123', username: 'Bob Smith' },
+          { id: '3', email: 'charlie@demo.com', password: 'demo123', username: 'Charlie Brown' },
+          { id: '4', email: 'diana@demo.com', password: 'demo123', username: 'Diana Prince' }
+        ]
+        setLocalStorageData('chat_users', demoUsers)
+        
+        // Add demo messages
+        const messages = [
+          { id: 'm1', sender_id: '1', receiver_id: '2', message: 'Hey Bob! How are you?', created_at: new Date(Date.now() - 3600000).toISOString() },
+          { id: 'm2', sender_id: '2', receiver_id: '1', message: 'Hi Alice! I\'m great!', created_at: new Date(Date.now() - 3500000).toISOString() },
+          { id: 'm3', sender_id: '3', receiver_id: '4', message: 'Diana, are we still meeting?', created_at: new Date(Date.now() - 7200000).toISOString() },
+          { id: 'm4', sender_id: '4', receiver_id: '3', message: 'Yes Charlie, see you soon!', created_at: new Date(Date.now() - 7100000).toISOString() }
+        ]
+        setLocalStorageData('chat_messages', messages)
+      }
+    }
+
+    // Add demo users
+    btnAddDemoUsers.onclick = () => {
+      if (useLocalStorage) {
+        initializeLocalStorage()
+        showToast('✅ Demo users added! Try: alice@demo.com / demo123')
+        if (currentUser) loadUsers()
+      } else {
+        showToast('ℹ️ Demo users only in offline mode', 'info')
+      }
+    }
+
+    // Get user profile
+    async function getUserProfile(userId) {
+      if (!useLocalStorage && supabase) {
+        const { data } = await supabase.from('profiles').select().eq('id', userId).single()
+        return data
+      } else {
+        const users = getLocalStorageData('chat_users')
+        return users.find(u => u.id === userId) || null
+      }
+    }
+
+    // Create profile
+    async function createProfile(userId, username, email) {
+      if (!useLocalStorage && supabase) {
+        const { data } = await supabase
+          .from('profiles')
+          .insert([{ id: userId, username, email }])
+          .select()
+          .single()
+        return data
+      } else {
+        const users = getLocalStorageData('chat_users')
+        const newUser = { id: userId, username, email, password: 'demo123' }
+        users.push(newUser)
+        setLocalStorageData('chat_users', users)
+        return newUser
+      }
+    }
+
+    // Register
+    btnRegister.onclick = async () => {
+      showLoader(true)
+      const email = document.getElementById('email').value
+      const password = document.getElementById('password').value
+      const username = document.getElementById('username').value
+      
+      if (!email || !password || !username) {
+        showLoader(false)
+        showToast('Fill all fields', 'error')
+        return
+      }
+      
+      if (useLocalStorage) {
+        const users = getLocalStorageData('chat_users')
+        if (users.find(u => u.email === email)) {
+          showLoader(false)
+          showToast('User exists', 'error')
+          return
+        }
+        
+        const newUser = { id: generateId(), email, password, username }
+        users.push(newUser)
+        setLocalStorageData('chat_users', users)
+        
+        currentUser = { id: newUser.id, email, user_metadata: { username } }
+        currentUserProfile = { id: newUser.id, username, email }
+        localStorage.setItem('last_user', JSON.stringify(currentUserProfile))
+        
+        showChat()
+        showToast(`Welcome ${username}!`)
+        showLoader(false)
+      } else {
+        try {
+          const { data, error } = await supabase.auth.signUp({ email, password, options: { data: { username } } })
+          if (error) throw error
+          
+          if (data.user) {
+            const profile = await createProfile(data.user.id, username, email)
+            currentUser = data.user
+            currentUserProfile = profile
+            showChat()
+            showToast(`Welcome ${username}!`)
+          }
+        } catch (error) {
+          showToast(error.message, 'error')
+        }
+        showLoader(false)
+      }
+    }
+
+    // Login
+    btnLogin.onclick = async () => {
+      showLoader(true)
+      const email = document.getElementById('email').value
+      const password = document.getElementById('password').value
+      
+      if (!email || !password) {
+        showLoader(false)
+        showToast('Enter email and password', 'error')
+        return
+      }
+      
+      if (useLocalStorage) {
+        const users = getLocalStorageData('chat_users')
+        const user = users.find(u => u.email === email && u.password === password)
+        
+        if (!user) {
+          showLoader(false)
+          showToast('Invalid credentials', 'error')
+          return
+        }
+        
+        currentUser = { id: user.id, email, user_metadata: { username: user.username } }
+        currentUserProfile = { id: user.id, username: user.username, email }
+        localStorage.setItem('last_user', JSON.stringify(currentUserProfile))
+        
+        showChat()
+        showToast(`Welcome back ${user.username}!`)
+        showLoader(false)
+      } else {
+        try {
+          const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+          if (error) throw error
+          
+          currentUser = data.user
+          currentUserProfile = await getUserProfile(currentUser.id)
+          
+          if (!currentUserProfile) {
+            const username = data.user.user_metadata?.username || prompt('Username:')
+            if (username) currentUserProfile = await createProfile(currentUser.id, username, email)
+          }
+          
+          showChat()
+          showToast(`Welcome back ${currentUserProfile?.username}!`)
+        } catch (error) {
+          showToast(error.message, 'error')
+        }
+        showLoader(false)
+      }
+    }
+
+    // Show chat
+    async function showChat() {
+      authDiv.style.display = 'none'
+      chatDiv.style.display = 'flex'
+      updateProfile()
+      await loadUsers()
+    }
+
+    // Update profile display
+    function updateProfile() {
+      if (currentUser && currentUserProfile) {
+        userNameSpan.innerHTML = `<i class="fas fa-circle" style="color:#25D366; font-size:10px;"></i> ${currentUserProfile.username}`
+        userEmailSpan.textContent = currentUser.email
+      }
+    }
+
+    // Load all users
+    async function loadUsers() {
+      try {
+        let data = []
+        
+        if (!useLocalStorage && supabase) {
+          const { data: users } = await supabase
+            .from('profiles')
+            .select('*')
+            .neq('id', currentUser.id)
+          data = users || []
+        } else {
+          const users = getLocalStorageData('chat_users')
+          data = users.filter(u => u.id !== currentUser.id)
+        }
+        
+        allUsers = data
+        totalUsersSpan.textContent = allUsers.length
+        
+        if (allUsers.length === 0) {
+          userListDiv.innerHTML = '<div class="empty-state"><i class="fas fa-users-slash"></i><br>No contacts found</div>'
+          visibleUsersSpan.textContent = '0'
+          return
+        }
+        
+        displayUsers(allUsers)
+        visibleUsersSpan.textContent = allUsers.length
+        
+      } catch (error) {
+        console.error('Error loading users:', error)
+      }
+    }
+
+    // Display users
+    function displayUsers(users) {
+      userListDiv.innerHTML = ''
+      
+      users.forEach(user => {
+        const userElement = document.createElement('div')
+        userElement.className = 'user-item'
+        if (selectedUser && selectedUser.id === user.id) {
+          userElement.classList.add('selected')
+        }
+        
+        userElement.innerHTML = `
+          <i class="fas fa-user-circle"></i>
+          <span>${user.username}</span>
+        `
+        
+        userElement.onclick = function() {
+          document.querySelectorAll('.user-item').forEach(item => {
+            item.classList.remove('selected')
+          })
+          
+          this.classList.add('selected')
+          selectedUser = user
+          messagesDiv.innerHTML = ''
+          loadMessages()
+          btnSend.disabled = false
+          
+          activeChatContainer.innerHTML = `
+            <div class="active-chat">
+              <i class="fas fa-comment"></i>
+              Chatting with: ${user.username}
+            </div>
+          `
+        }
+        
+        userListDiv.appendChild(userElement)
+      })
+    }
+
+    // Search
+    searchInput.addEventListener('input', (e) => {
+      const term = e.target.value.toLowerCase()
+      
+      if (!term) {
+        displayUsers(allUsers)
+        visibleUsersSpan.textContent = allUsers.length
+        return
+      }
+      
+      const filtered = allUsers.filter(u => 
+        u.username.toLowerCase().includes(term)
+      )
+      
+      displayUsers(filtered)
+      visibleUsersSpan.textContent = filtered.length
+    })
+
+    // Load messages
+    async function loadMessages() {
+      if (!selectedUser) return
+      
+      try {
+        let messages = []
+        
+        if (!useLocalStorage && supabase) {
+          const { data } = await supabase
+            .from('messages')
+            .select('*')
+            .or(`and(sender_id.eq.${currentUser.id},receiver_id.eq.${selectedUser.id}),and(sender_id.eq.${selectedUser.id},receiver_id.eq.${currentUser.id})`)
+            .order('created_at')
+          messages = data || []
+        } else {
+          const allMessages = getLocalStorageData('chat_messages') || []
+          messages = allMessages.filter(m =>
+            (m.sender_id === currentUser.id && m.receiver_id === selectedUser.id) ||
+            (m.sender_id === selectedUser.id && m.receiver_id === currentUser.id)
+          ).sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+        }
+        
+        messagesDiv.innerHTML = ''
+        
+        if (messages.length === 0) {
+          messagesDiv.innerHTML = '<div class="welcome-message"><i class="fas fa-hand-peace"></i><br>Start chatting with ' + selectedUser.username + '!</div>'
+          return
+        }
+        
+        messages.forEach(displayMessage)
+        messagesDiv.scrollTop = messagesDiv.scrollHeight
+        
+      } catch (error) {
+        console.error('Error loading messages:', error)
+      }
+    }
+
+    // Display message
+    function displayMessage(m) {
+      const wrapper = document.createElement('div')
+      wrapper.className = `message-wrapper ${m.sender_id === currentUser.id ? 'sent' : 'received'}`
+      
+      const bubble = document.createElement('div')
+      bubble.className = `message-bubble ${m.sender_id === currentUser.id ? 'sent' : 'received'}`
+      
+      const time = new Date(m.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      
+      let senderName = ''
+      if (m.sender_id !== currentUser.id) {
+        const sender = allUsers.find(u => u.id === m.sender_id)
+        if (sender) {
+          senderName = `<div class="message-sender-name">${sender.username}</div>`
+        }
+      }
+      
+      bubble.innerHTML = `${senderName}${m.message}<div class="message-time">${time}</div>`
+      wrapper.appendChild(bubble)
+      messagesDiv.appendChild(wrapper)
+    }
+
+    // Send message
+    btnSend.onclick = async () => {
+      if (!selectedUser) {
+        showToast('Select a contact', 'error')
+        return
+      }
+      
+      const msg = document.getElementById('msg').value
+      if (!msg.trim()) return
+      
+      const newMessage = {
+        sender_id: currentUser.id,
+        receiver_id: selectedUser.id,
+        message: msg,
+        created_at: new Date().toISOString()
+      }
+      
+      try {
+        if (!useLocalStorage && supabase) {
+          await supabase.from('messages').insert([newMessage])
+        } else {
+          const messages = getLocalStorageData('chat_messages') || []
+          newMessage.id = generateId()
+          messages.push(newMessage)
+          setLocalStorageData('chat_messages', messages)
+        }
+        
+        displayMessage(newMessage)
+        document.getElementById('msg').value = ''
+        messagesDiv.scrollTop = messagesDiv.scrollHeight
+        
+      } catch (error) {
+        console.error('Error sending message:', error)
+        showToast('Failed to send', 'error')
+      }
+    }
+
+    // Enter key
+    document.getElementById('msg').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && !btnSend.disabled) {
+        btnSend.click()
+      }
+    })
+
+    // Logout
+    btnLogout.onclick = async () => {
+      if (!useLocalStorage && supabase) {
+        await supabase.auth.signOut()
+      }
+      
+      localStorage.removeItem('last_user')
+      
+      currentUser = null
+      currentUserProfile = null
+      selectedUser = null
+      allUsers = []
+      
+      chatDiv.style.display = 'none'
+      authDiv.style.display = 'block'
+      messagesDiv.innerHTML = ''
+      userListDiv.innerHTML = ''
+      activeChatContainer.innerHTML = ''
+      btnSend.disabled = true
+      searchInput.value = ''
+      
+      showToast('Logged out')
+    }
+
+    // Auto login
+    async function checkAutoLogin() {
+      await initializeApp()
+      
+      if (!useLocalStorage && supabase) {
+        const { data } = await supabase.auth.getSession()
+        if (data.session) {
+          currentUser = data.session.user
+          currentUserProfile = await getUserProfile(currentUser.id)
+          showChat()
+        }
+      } else {
+        const lastUser = localStorage.getItem('last_user')
+        if (lastUser) {
+          const user = JSON.parse(lastUser)
+          currentUser = { id: user.id, email: user.email }
+          currentUserProfile = user
+          showChat()
+        }
+      }
+    }
+
+    checkAutoLogin()
+  </script>
+</body>
+</html>
